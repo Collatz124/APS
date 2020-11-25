@@ -26,7 +26,7 @@ def SimulateAirport(k: int = 1, offset: int = 0, year: int = 0, operationalTime:
         # Så længe der er fly der mangler at ankomme eller køen ikke er tom
 
         # 1. Tjek om der er fly der kan tilføjes til landingskøen
-        while (len(flights) > 0 and flights[0]["arrival"] <= time):  # Hvis der er ankomende fly tilføj dem til landingskøen
+       while (len(flights) > 0 and flights[0]["arrival"] <= time):  # Hvis der er ankomende fly tilføj dem til landingskøen
             queue.append(flights.pop(0))
 
         # 2. Opdater landingsbaner hvis tiden er gået
@@ -56,14 +56,14 @@ def SimulateAirport(k: int = 1, offset: int = 0, year: int = 0, operationalTime:
     return (totalWaitingTime, highestWaitingTime)  # Returner en tuple, denne "pakkes ud" når funktionen kaldes
 
 
-def runSimulations(years: int, days: int, skipYears: bool):
+def runSimulations(years: int, days: int, skipYears: int):
     """
     Driv koden til simuleringerne
 
     Parameters:
          - years: int, antal år der skal simuleres
          - days: int, antal dage der skal simuleres pr. år.
-         - skipYears: bool, hvis denne er sand springes der 5 år frem adgangen i stedet for 1 år.
+         - skipYears: int, antal år imellem hver simulering.
 
     Returns:
          - En tuple af to lister, gennemsnittene og de højeste vente tider.
@@ -74,7 +74,7 @@ def runSimulations(years: int, days: int, skipYears: bool):
     for k in range(1, 3):  # Simuler med 1 og 2 landingsbaner
         dataForK = {"average": [], "highest": []}  # Gennemsnittene og højeste ventetid for k landingsbaner
 
-        for i in range(0, years, 5 if (skipYears == True) else 1):  # Simuler hvert år
+        for i in range(0, years, skipYears):  # Simuler hvert år
             totalTimeWaiting, highestWaitThisYear = 0, 0
 
             for _ in range(days):  # For hvert år køres simuleringen 10 gange for at få et mere uniformt billede (nogle dage kan tilfældigvis være meget værre end andre)
