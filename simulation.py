@@ -26,7 +26,7 @@ def SimulateAirport(k: int = 1, offset: int = 0, year: int = 0, operationalTime:
         # Så længe der er fly der mangler at ankomme eller køen ikke er tom
 
         # 1. Tjek om der er fly der kan tilføjes til landingskøen
-       while (len(flights) > 0 and flights[0]["arrival"] <= time):  # Hvis der er ankomende fly tilføj dem til landingskøen
+        while (len(flights) > 0 and flights[0]["arrival"] <= time):  # Hvis der er ankomende fly tilføj dem til landingskøen
             queue.append(flights.pop(0))
 
         # 2. Opdater landingsbaner hvis tiden er gået
