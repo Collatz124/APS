@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def plotGennemsnit(averages: [[float]], years: int):
+def plotData(averages: [[float]], years: int, labels: (str)):
     # Indlæser gennemsnittene for k = 1 og k = 2
     gennemsnit_k1, gennemsnit_k2 = averages[0], averages[1]
 
@@ -35,9 +35,9 @@ def plotGennemsnit(averages: [[float]], years: int):
     )
 
     # labels til plottet
-    plt.xlabel("Antal år efter startår")
-    plt.ylabel("Gennemsnitlig ventetid")
-    plt.title("Sammenligning af ventetider med K antal landingsbaner")
+    plt.xlabel(labels[1])
+    plt.ylabel(labels[2])
+    plt.title(labels[0])
     plt.xticks(index + 0.167, [str(i) for i in range(years)])
     plt.legend()
 

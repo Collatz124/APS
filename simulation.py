@@ -1,5 +1,5 @@
 from flights import GenerateFlights
-from time import time
+import time as t
 from viz import plotData
 
 
@@ -12,6 +12,7 @@ def SimulateAirport(
         key=lambda x: x["arrival"],
     )  # Generer tilfældige fly og sortere dem efter ankomst
     time, dt, totalWaitingTime = 0, 0, 0
+    heighestWaitingTime = (0,)
     queue, airstrips = [], [
         {"duration": 0, "remainder": 0, "start": 0, "arrival": 0} for _ in range(k)
     ]  # Landingskøen
@@ -29,8 +30,12 @@ def SimulateAirport(
         for i in range(k):
             if (
                 airstrips[i]["start"] + airstrips[i]["duration"] <= time
-            ):  # Tiden er gået, derfor fjernes flyet fra landingsbanen
-                totalWaitingTime += airstrips[i]["start"] - airstrips[i]["arrival"]
+            ):  # Tiden er gået, derfor fjernes flyet fra landingsbanen NOTE: Hvis landingsbanen er fri er dette også sandt da 0 + 0 <= time altid gælder.
+                timeWaited = airstrips[i]["start"] - airstrips[i]["arrival"]
+                # Den totale tid flyet ventede på en ledig landingsbane
+                totalWaitingTime += timeWaited
+                if timeWaited > heighestWaitingTime:  # Finder den største ventetid.
+                    heighestWaitingTime = timeWaited
 
                 # Pop fra køen og lad dette fly lande
                 if len(queue) > 0:
@@ -59,12 +64,16 @@ def SimulateAirport(
 
         time += dt if (dt > 0) else 1
 
-    return totalWaitingTime
+    return (
+        totalWaitingTime,
+        heighestWaitingTime,
+    )  # Returner en tuple, denne "pakkes ud" når funktionen kaldes
 
 
 def runSimulations(years: int):
     """ Runs simulations of the airports """
     avarges, maximumTimeWaiting = [], []
+    heighestWaitingTimePerYear = [[0, 0] for _ in range(years)]
     for k in range(1, 3):  # Simuler med 1 og 2 landingsbaner
         avargesForK = []  # Gennemsnittene for k landingsbaner
 
@@ -74,9 +83,12 @@ def runSimulations(years: int):
             for _ in range(
                 365
             ):  # For hvert år køres simuleringen 10 gange for at få et mere uniformt billede (nogle dage kan tilfældigvis være meget værre end andre)
-                totalTimeWaiting += SimulateAirport(
+                wait, highestWait = SimulateAirport(
                     k=k, offset=0, year=i, operationalTime=46800
-                )
+                )  # Denne funktion returnere en tuple som bliver pakket ud i variablerne wait og heighestWait, hvilket skal forståes som wait = tuple[0] og heighestWait = tuple[1]
+                totalTimeWaiting += wait
+                if heighestWait > heighestWaitingTimePerYear[i][k - 1]:
+                    heighestWaitingTimePerYear[i][k - 1] = heighestWait
 
             avargesForK.append(
                 totalTimeWaiting / 365
@@ -84,14 +96,33 @@ def runSimulations(years: int):
 
         avarges.append(avargesForK)
 
-    return avarges
+    return (avarges, heighestWaitingTimePerYear)  # Returner data fra simuleringerne
 
 
 if __name__ == "__main__":
     # Dette kode køre simuleringen
     years = int(input("Antal år: "))
 
-    start = time()
-    data = runSimulations(years)
-    print("Det tog {0} ms...".format(time() - start))
-    plotData(data, years)
+    start = t.time()
+    gennemsnit, heighest = runSimulations(
+        years
+    )  # Denne funktion returnere en tuple denne bliver derfor pakket ud i to variabler
+    print("Det tog {0} sekunder...".format(t.time() - start))
+    plotData(
+        gennemsnit,
+        years,
+        (
+            "Gennemsnitlig ventetid i en lufthavn med K landingsbaner.",
+            "Antal år",
+            "Gennemsnitlig ventetid i sekunder",
+        ),
+    )
+    plotData(
+        heighest,
+        years,
+        (
+            "Højeste ventetid i en lufthavn med K landingsbaner.",
+            "Antal år",
+            "Højeste ventetid i sekunder",
+        ),
+    )
