@@ -1,23 +1,17 @@
 #!/usr/bin/env python3
 from flights import GenerateFlights
 
-def SimulateAirport(k: int = 1, offset: int = 0, year: int = 0, operationalTime: int = 46800):
+def SimulateAirport(flights: [{}], k: int = 1) -> (int):
     """
-
     Simulere en lufthavn med k landingsbaner.
 
     Parameters:
+         - flights: [{}], en liste af fly som skal lande i lufthavnen
          - k: int, antal landingsbaner i lufthavnen
-         - offset: int, lægges til hver landingsvarighed, for at tage højde for at der bl.a. kan opstå regn.
-         - year: int, antallet af år siden år 0.
-         - operationalTime: int, antal sekunder på en dag, denne bruges til at gennere flyenes ankomst tider.
 
     Returns:
          - En tuple af to værdier, flyenes totale vente tid i landingskøen og den højeste vente tid.
-
     """
-    flights = sorted(GenerateFlights(offset=offset, year=year, oT=operationalTime), key=lambda x: x["arrival"])  # Generer tilfældige fly og sortere dem efter ankomst
-
     time, dt, totalWaitingTime = 0, 0, 0
     highestWaitingTime = 0
     queue, airstrips = [], [{"duration": 0, "remainder": 0, "start": 0, "arrival": 0} for _ in range(k)]  # Landingskøen og landingsbanerne
@@ -55,8 +49,7 @@ def SimulateAirport(k: int = 1, offset: int = 0, year: int = 0, operationalTime:
 
     return (totalWaitingTime, highestWaitingTime)  # Returner en tuple, denne "pakkes ud" når funktionen kaldes
 
-
-def runSimulations(years: int, days: int, skipYears: int, offset: int):
+def runSimulations(years: int, days: int, skipYears: int, offset: int) -> [[float]]:
     """
     Driv koden til simuleringerne
 
@@ -68,8 +61,8 @@ def runSimulations(years: int, days: int, skipYears: int, offset: int):
 
     Returns:
          - En tuple af to lister, gennemsnittene og de højeste vente tider.
-
     """
+
     averages, highest = [], []
 
     for k in range(1, 3):  # Simuler med 1 og 2 landingsbaner
@@ -79,16 +72,26 @@ def runSimulations(years: int, days: int, skipYears: int, offset: int):
             totalTimeWaiting, highestWaitThisYear = 0, 0
 
             for _ in range(days):  # For hvert år køres simuleringen 10 gange for at få et mere uniformt billede (nogle dage kan tilfældigvis være meget værre end andre)
-                wait, highestWaitThisDay = SimulateAirport(k=k, offset=offset, year=i, operationalTime=46800)  # Denne funktion returnere en tuple som bliver pakket ud i variablerne wait og heighestWait, hvilket skal forståes som wait = tuple[0] og heighestWait = tuple[1]
+                flights = sorted(GenerateFlights(offset=offset, year=years, oT=46800), key=lambda x: x["arrival"])  # Generer tilfældige fly og sortere dem efter ankomst
+                wait, highestWaitThisDay = SimulateAirport(flights, k=k)  # Denne funktion returnere en tuple som bliver pakket ud i variablerne wait og heighestWait, hvilket skal forståes som wait = tuple[0] og heighestWait = tuple[1]
                 totalTimeWaiting += wait
 
                 if highestWaitThisDay > highestWaitThisYear:
                     highestWaitThisYear = highestWaitThisDay
 
-            dataForK["average"].append(totalTimeWaiting / days)  # Tilføj den gennemsnitlige vente tid.
+            dataForK["average"].append(totalTimeWaiting / days) # Tilføj den gennemsnitlige vente tid pr dag.
             dataForK["highest"].append(highestWaitThisYear) # Tilføj den højeste vente tid.
 
-        averages.append(dataForK["average"]) # Tager alle gennesnit
-        highest.append(dataForK["highest"]) # Tager alle højeste ventetider
+        averages.append(dataForK["average"]) # Tilføjer alle gennemsnit til average matricen
+        highest.append(dataForK["highest"]) # Tilføjer alle de højeste værdier til highest matricen
 
     return (averages, highest)  # Returner data fra simuleringerne
+
+
+if (__name__ == "__main__"):
+    # Prøv eksemplet fra oplægget.
+    flights = [{"arrival": 5, "duration": 15}, {"arrival": 25, "duration": 35}, {"arrival": 50, "duration": 30}, {"arrival": 100, "duration": 20}]
+    if (SimulateAirport(flights, k=1)[0] != 10): # Cheker om der er et fly der venter 10 sekunder, ligesom i eksemplet, hvis der ikke er virker koden ikke.
+        print("Koden virker ikke...")
+    else:
+        print("koden virker :)")
