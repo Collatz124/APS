@@ -4,7 +4,7 @@ from viz import plotData
 from time import time
 
 years = int(input("Antal år: "))
-skipYears = True if (input("vil du skip 5 år adgangen? y/n ") == "y") else False
+skipYears = True if (input("vil du skip 5 år adgangen? ja / nej") == "ja") else False
 days = int(input("Antal dage der skal simuleres pr år: "))
 
 print("Påbegynder simulering...") # Så det kan ses at simuleringen går igang da den kan tage langt tid.

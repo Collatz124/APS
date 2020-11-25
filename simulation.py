@@ -2,7 +2,20 @@
 from flights import GenerateFlights
 
 def SimulateAirport(k: int = 1, offset: int = 0, year: int = 0, operationalTime: int = 46800):
-    """ Simulere en lufthavn med k landingsbaner """
+    """
+
+    Simulere en lufthavn med k landingsbaner.
+
+    Parameters:
+         - k: int, antal landingsbaner i lufthavnen
+         - offset: int, lægges til hver landingsvarighed, for at tage højde for at der bl.a. kan opstå regn.
+         - year: int, antallet af år siden år 0.
+         - operationalTime: int, antal sekunder på en dag, denne bruges til at gennere flyenes ankomst tider.
+
+    Returns:
+         - En tuple af to værdier, flyenes totale vente tid i landingskøen og den højeste vente tid.
+
+    """
     flights = sorted(GenerateFlights(offset=offset, year=year, oT=operationalTime), key=lambda x: x["arrival"])  # Generer tilfældige fly og sortere dem efter ankomst
 
     time, dt, totalWaitingTime = 0, 0, 0
@@ -43,13 +56,25 @@ def SimulateAirport(k: int = 1, offset: int = 0, year: int = 0, operationalTime:
     return (totalWaitingTime, highestWaitingTime)  # Returner en tuple, denne "pakkes ud" når funktionen kaldes
 
 
-def runSimulations(years: int, days: int):
-    """ Runs simulations of the airports """
+def runSimulations(years: int, days: int, skipYears: bool):
+    """
+    Driv koden til simuleringerne
+
+    Parameters:
+         - years: int, antal år der skal simuleres
+         - days: int, antal dage der skal simuleres pr. år.
+         - skipYears: bool, hvis denne er sand springes der 5 år frem adgangen i stedet for 1 år.
+
+    Returns:
+         - En tuple af to lister, gennemsnittene og de højeste vente tider.
+
+    """
     averages, highest = [], []
+
     for k in range(1, 3):  # Simuler med 1 og 2 landingsbaner
         dataForK = {"average": [], "highest": []}  # Gennemsnittene og højeste ventetid for k landingsbaner
 
-        for i in range(years):  # Simuler hvert år
+        for i in range(0, years, 5 if (skipYears == True) else 1):  # Simuler hvert år
             totalTimeWaiting, highestWaitThisYear = 0, 0
 
             for _ in range(days):  # For hvert år køres simuleringen 10 gange for at få et mere uniformt billede (nogle dage kan tilfældigvis være meget værre end andre)
@@ -66,7 +91,3 @@ def runSimulations(years: int, days: int):
         highest.append(dataForK["highest"]) # Tager alle højeste ventetider
 
     return (averages, highest)  # Returner data fra simuleringerne
-
-
-if __name__ == "__main__":
-    # Test kode
