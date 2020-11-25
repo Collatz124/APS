@@ -5,10 +5,7 @@ import time as t
 
 def SimulateAirport(k: int = 1, offset: int = 0, year: int = 0, operationalTime: int = 46800):
     """ Simulere en lufthavn med k landingsbaner """
-    flights = sorted(
-        GenerateFlights(offset=offset, year=year, oT=operationalTime),
-        key=lambda x: x["arrival"],
-    )  # Generer tilfældige fly og sortere dem efter ankomst
+    flights = sorted(GenerateFlights(offset=offset, year=year, oT=operationalTime), key=lambda x: x["arrival"])  # Generer tilfældige fly og sortere dem efter ankomst
 
     time, dt, totalWaitingTime = 0, 0, 0
     heighestWaitingTime = 0
@@ -33,19 +30,9 @@ def SimulateAirport(k: int = 1, offset: int = 0, year: int = 0, operationalTime:
                 # Pop fra køen og lad dette fly lande
                 if len(queue) > 0:
                     flight = queue.pop(0)
-                    airstrips[i] = {
-                        "duration": flight["duration"],
-                        "remainder": flight["duration"],
-                        "start": time,
-                        "arrival": flight["arrival"]
-                    }
+                    airstrips[i] = {"duration": flight["duration"],"remainder": flight["duration"],"start": time,"arrival": flight["arrival"]}
                 else:
-                    airstrips[i] = {
-                        "duration": 0,
-                        "start": 0,
-                        "remainder": 0,
-                        "arrival": 0
-                    }
+                    airstrips[i] = {"duration": 0,"start": 0,"remainder": 0,"arrival": 0}
 
             else:
                 airstrips[i]["remainder"] -= dt
