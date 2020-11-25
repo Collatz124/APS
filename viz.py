@@ -22,7 +22,12 @@ def plotData(averages: [[float]], years: int, labels: (str)):
 
     # Plotter bar plots for K = 1 og K = 2
     rects1 = plt.bar(
-        index, gennemsnit_k1, bar_width, alpha=opacity, color="tab:blue", label="K=1"
+        index,
+        gennemsnit_k1,
+        bar_width,
+        alpha=opacity,
+        color="tab:blue",
+        label="K=1"
     )
 
     rects2 = plt.bar(
@@ -31,7 +36,7 @@ def plotData(averages: [[float]], years: int, labels: (str)):
         bar_width,
         alpha=opacity,
         color="tab:orange",
-        label="K=2",
+        label="K=2"
     )
 
     # labels til plottet
