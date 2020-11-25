@@ -11,7 +11,7 @@ def SimulateAirport(k: int = 1, offset: int = 0, year: int = 0, operationalTime:
     )  # Generer tilfældige fly og sortere dem efter ankomst
 
     time, dt, totalWaitingTime = 0, 0, 0
-    heighestWaitingTime = (0,)
+    heighestWaitingTime = 0
     queue, airstrips = [], [{"duration": 0, "remainder": 0, "start": 0, "arrival": 0} for _ in range(k)]  # Landingskøen og landingsbanerne
 
     while len(flights) > 0 or len(queue) > 0:
@@ -61,7 +61,7 @@ def SimulateAirport(k: int = 1, offset: int = 0, year: int = 0, operationalTime:
 def runSimulations(years: int):
     """ Runs simulations of the airports """
     avarges, maximumTimeWaiting = [], []
-    heighestWaitingTimePerYear = [[0, 0] for _ in range(years)]
+    highestWaitingTimePerYear = [[0, 0] for _ in range(years)]
     for k in range(1, 3):  # Simuler med 1 og 2 landingsbaner
         avargesForK = []  # Gennemsnittene for k landingsbaner
 
@@ -71,14 +71,14 @@ def runSimulations(years: int):
             for _ in range(365):  # For hvert år køres simuleringen 10 gange for at få et mere uniformt billede (nogle dage kan tilfældigvis være meget værre end andre)
                 wait, highestWait = SimulateAirport(k=k, offset=0, year=i, operationalTime=46800)  # Denne funktion returnere en tuple som bliver pakket ud i variablerne wait og heighestWait, hvilket skal forståes som wait = tuple[0] og heighestWait = tuple[1]
                 totalTimeWaiting += wait
-                if heighestWait > heighestWaitingTimePerYear[i][k - 1]:
-                    heighestWaitingTimePerYear[i][k - 1] = heighestWait
+                if highestWait > highestWaitingTimePerYear[i][k - 1]:
+                    highestWaitingTimePerYear[i][k - 1] = highestWait
 
             avargesForK.append(totalTimeWaiting / 365)  # Tilføj den gennemsnitlige vente tid.
 
         avarges.append(avargesForK)
 
-    return (avarges, heighestWaitingTimePerYear)  # Returner data fra simuleringerne
+    return (avarges, highestWaitingTimePerYear)  # Returner data fra simuleringerne
 
 
 if __name__ == "__main__":
