@@ -1,22 +1,17 @@
-# -*- coding: utf-8 -*-
-"""
-Spyder Editor
-
-This is a temporary script file.
-"""
+#!/usr/bin/env python3
 
 import numpy as np
 import matplotlib.pyplot as plt
 
 
-def plotData(averages: [[float]], years: int, labels: (str)):
+def plotData(averages: [[float]], years: int, skipYears: bool, labels: (str)):
     # Indlæser gennemsnittene for k = 1 og k = 2
     gennemsnit_k1, gennemsnit_k2 = averages[0], averages[1]
 
     # parametre for plottet
     plt.style.use("ggplot")
     fig, ax = plt.subplots()
-    index = np.arange(years)
+    index = np.arange(0, years, 5 if (skipYears == True) else 1)
     bar_width = 0.35
     opacity = 0.8
 

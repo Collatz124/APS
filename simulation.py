@@ -1,6 +1,5 @@
+#!/usr/bin/env python3
 from flights import GenerateFlights
-import time as t
-from viz import plotData
 
 def SimulateAirport(k: int = 1, offset: int = 0, year: int = 0, operationalTime: int = 46800):
     """ Simulere en lufthavn med k landingsbaner """
@@ -46,7 +45,7 @@ def SimulateAirport(k: int = 1, offset: int = 0, year: int = 0, operationalTime:
 
 def runSimulations(years: int, days: int):
     """ Runs simulations of the airports """
-    avarages, highest = [], []
+    averages, highest = [], []
     for k in range(1, 3):  # Simuler med 1 og 2 landingsbaner
         dataForK = {"average": [], "highest": []}  # Gennemsnittene og højeste ventetid for k landingsbaner
 
@@ -63,20 +62,11 @@ def runSimulations(years: int, days: int):
             dataForK["average"].append(totalTimeWaiting / days)  # Tilføj den gennemsnitlige vente tid.
             dataForK["highest"].append(highestWaitThisYear) # Tilføj den højeste vente tid.
 
-        avarges.append(dataForK["average"]) # Tager alle gennesnit
+        averages.append(dataForK["average"]) # Tager alle gennesnit
         highest.append(dataForK["highest"]) # Tager alle højeste ventetider
 
-    return (avarges, highest)  # Returner data fra simuleringerne
+    return (averages, highest)  # Returner data fra simuleringerne
 
 
 if __name__ == "__main__":
-    # Dette kode køre simuleringen
-    years = int(input("Antal år: "))
-    days = int(input("Antal dage der skal simuleres pr år: "))
-
-    start = t.time()
-
-    average, highest = runSimulations(years, days)  # Denne funktion returnere en tuple denne bliver derfor pakket ud i to variabler
-    print("Det tog {0} sekunder...".format(t.time() - start))
-    plotData(average, years, ("Gennemsnitlig ventetid i en lufthavn med K landingsbaner.", "Antal år", "Gennemsnitlig ventetid i sekunder"))
-    plotData(highest, years, ("Højeste ventetid i en lufthavn med K landingsbaner.", "Antal år", "Højeste ventetid i sekunder"))
+    # Test kode
