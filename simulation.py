@@ -1,6 +1,6 @@
-from flights import GenerateFlights
+from test import GenerateFlights
 import time as t
-from viz import plotData
+# from viz import plotData
 
 
 def SimulateAirport(k: int = 1, offset: int = 0, year: int = 0, operationalTime: int = 46800):
@@ -37,14 +37,14 @@ def SimulateAirport(k: int = 1, offset: int = 0, year: int = 0, operationalTime:
                         "duration": flight["duration"],
                         "remainder": flight["duration"],
                         "start": time,
-                        "arrival": flight["arrival"],
+                        "arrival": flight["arrival"]
                     }
                 else:
                     airstrips[i] = {
                         "duration": 0,
                         "start": 0,
                         "remainder": 0,
-                        "arrival": 0,
+                        "arrival": 0
                     }
 
             else:
@@ -88,5 +88,6 @@ if __name__ == "__main__":
     start = t.time()
     gennemsnit, heighest = runSimulations(years)  # Denne funktion returnere en tuple denne bliver derfor pakket ud i to variabler
     print("Det tog {0} sekunder...".format(t.time() - start))
-    plotData(gennemsnit, years, ("Gennemsnitlig ventetid i en lufthavn med K landingsbaner.", "Antal år", "Gennemsnitlig ventetid i sekunder"))
-    plotData(heighest, years, ("Højeste ventetid i en lufthavn med K landingsbaner.", "Antal år", "Højeste ventetid i sekunder"))
+    print(gennemsnit, heighest)
+    #plotData(gennemsnit, years, ("Gennemsnitlig ventetid i en lufthavn med K landingsbaner.", "Antal år", "Gennemsnitlig ventetid i sekunder"))
+    #plotData(heighest, years, ("Højeste ventetid i en lufthavn med K landingsbaner.", "Antal år", "Højeste ventetid i sekunder"))
