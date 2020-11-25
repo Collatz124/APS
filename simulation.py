@@ -56,7 +56,7 @@ def SimulateAirport(k: int = 1, offset: int = 0, year: int = 0, operationalTime:
     return (totalWaitingTime, highestWaitingTime)  # Returner en tuple, denne "pakkes ud" når funktionen kaldes
 
 
-def runSimulations(years: int, days: int, skipYears: int):
+def runSimulations(years: int, days: int, skipYears: int, offset: int):
     """
     Driv koden til simuleringerne
 
@@ -64,6 +64,7 @@ def runSimulations(years: int, days: int, skipYears: int):
          - years: int, antal år der skal simuleres
          - days: int, antal dage der skal simuleres pr. år.
          - skipYears: int, antal år imellem hver simulering.
+         - offset: int, ligges til hvert flys landings varrighed for at simulere dårligt vejr ext.
 
     Returns:
          - En tuple af to lister, gennemsnittene og de højeste vente tider.
@@ -78,7 +79,7 @@ def runSimulations(years: int, days: int, skipYears: int):
             totalTimeWaiting, highestWaitThisYear = 0, 0
 
             for _ in range(days):  # For hvert år køres simuleringen 10 gange for at få et mere uniformt billede (nogle dage kan tilfældigvis være meget værre end andre)
-                wait, highestWaitThisDay = SimulateAirport(k=k, offset=0, year=i, operationalTime=46800)  # Denne funktion returnere en tuple som bliver pakket ud i variablerne wait og heighestWait, hvilket skal forståes som wait = tuple[0] og heighestWait = tuple[1]
+                wait, highestWaitThisDay = SimulateAirport(k=k, offset=offset, year=i, operationalTime=46800)  # Denne funktion returnere en tuple som bliver pakket ud i variablerne wait og heighestWait, hvilket skal forståes som wait = tuple[0] og heighestWait = tuple[1]
                 totalTimeWaiting += wait
 
                 if highestWaitThisDay > highestWaitThisYear:
