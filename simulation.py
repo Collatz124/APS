@@ -88,6 +88,7 @@ def runSimulations(years: int):
 
 
 if __name__ == "__main__":
+    # Dette kode køre simuleringen
     years = int(input("Antal år: "))
 
     start = time()
