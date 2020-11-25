@@ -21,5 +21,5 @@ plotData(average, years, skipYears, ("Gennemsnitlig total ventetid", "Antal år"
 plotData(highest, years, skipYears, ("Højeste ventetid.", "Antal år", "Højeste ventetid i sekunder"))
 
 # Beregner gennemsnitlig vente tid pr fly udfra variablen average.
-averagePrFlight = [avrg / np.power(200, year) for avrg, year in zip(average, range(0, years, skipYears))] # Beregner gennemsnitet pr fly pr år.
+averagePrFlight = [[avrg / np.power(200, year) for avrg, year in zip(average[i], range(0, years, skipYears))] for i in range(2)] # Beregner gennemsnitet pr fly pr år.
 plotData(averagePrFlight, years, skipYears, ("Gennemsnitlig ventetid", "Antal år", "Gennemsnitlig ventetid i sekunder"))
