@@ -11,13 +11,13 @@ def GenerateLandingDuration():
             return np.random.randint(30 * i + 1 if (i > 0) else 0, 30 * (i + 1))  # Tager højde for at distruptionen kan ændre sig så der kommer fly med landingstider på 0-30 sekunder
 
 
-def GenerateFlights(offset: int = 0, year: int = 0, oT: int = 46800):
+def GenerateFlights(offset: int = 0, year: int = 0, operationalTime: int = 46800):
     """
 
     Parameter:
         - offset: int, offset som lægges til alle landings varigheder.
         - year: int, antal år siden år 0.
-        - oT: int, tiden på en dag.
+        - operationalTime: int, tiden på en dag.
 
     Return:
         - En liste af fly, repræsenteret af dictonaries.
@@ -30,7 +30,7 @@ def GenerateFlights(offset: int = 0, year: int = 0, oT: int = 46800):
 
     for _ in range(n):
         duration = GenerateLandingDuration() + offset  # Flyets landings periode
-        arrival = np.random.randint(0, oT)  # Flyet ankomst imellem 0 og oT
+        arrival = np.random.randint(0, operationalTime)  # Flyet ankomst imellem 0 og oT
 
         flights.append({"arrival": arrival, "duration": duration})
 

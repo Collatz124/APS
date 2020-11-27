@@ -21,22 +21,22 @@ def SimulateAirport(flights: [{}], k: int = 1) -> (int):
         # Så længe der er fly der mangler at ankomme eller køen ikke er tom
 
         # 1. Tjek om der er fly der kan tilføjes til landingskøen
-        while (len(flights) > 0 and flights[0]["arrival"] <= time):  # Hvis der er ankomende fly tilføj dem til landingskøen
-            queue.append(flights.pop(0))
+        while (len(flights) > 0 and flights[0]["arrival"] <= time):  # Hvis der er ankomende fly tilføj dem til landingskøen, dette gøres ved hjælp af while løkken
+            queue.append(flights.pop(0)) # Fjern flyet fra fly listen og flyt den til køen.
 
         # 2. Opdater landingsbaner hvis tiden er gået
         for i in range(k):
             if (airstrips[i]["start"] + airstrips[i]["duration"] <= time):  # Tiden er gået, derfor fjernes flyet fra landingsbanen NOTE: Hvis landingsbanen er fri er dette også sandt da 0 + 0 <= time altid gælder.
-                timeWaited = airstrips[i]["start"] - airstrips[i]["arrival"]
-                # Den totale tid flyet ventede på en ledig landingsbane
+                timeWaited = airstrips[i]["start"] - airstrips[i]["arrival"] # Den totale tid flyet ventede på en ledig landingsbane NOTE: Denne er 0 hvis der ikke er noget fly på landingsbanen
                 totalWaitingTime += timeWaited
+                
                 if timeWaited > highestWaitingTime:  # Finder den største ventetid.
                     highestWaitingTime = timeWaited
 
                 # Pop fra køen og lad dette fly lande
                 if len(queue) > 0:
                     flight = queue.pop(0)
-                    airstrips[i] = {"duration": flight["duration"],"remainder": flight["duration"],"start": time,"arrival": flight["arrival"]}
+                    airstrips[i] = {"duration": flight["duration"], "remainder": flight["duration"],"start": time,"arrival": flight["arrival"]}
                 else:
                     airstrips[i] = {"duration": 0,"start": 0,"remainder": 0,"arrival": 0} # Landingsbanen forbliver fri
 
@@ -77,6 +77,7 @@ def runSimulations(years: int, days: int, skipYears: int, offset: int) -> [[floa
                 wait, highestWaitThisDay = SimulateAirport(flights, k=k)  # Denne funktion returnere en tuple som bliver pakket ud i variablerne wait og heighestWait, hvilket skal forståes som wait = tuple[0] og heighestWait = tuple[1]
                 totalTimeWaiting += wait
 
+                # Opdatere den højeste vægt denne dag
                 if highestWaitThisDay > highestWaitThisYear:
                     highestWaitThisYear = highestWaitThisDay
 
