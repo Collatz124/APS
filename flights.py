@@ -7,7 +7,7 @@ def GenerateLandingDuration():
 
     randomNumber = np.random.randint(0, sum(dist) + 1)  # Genenere et tilfældigt tal, for at finde ud af i hvilket område flyets landings tid skal ligge
     for i in range(len(dist)):
-        if randomNumber >= sum(dist[:i]):
+        if randomNumber >= sum(dist[:i]): # Hvis det tilfældige tal lige har været i sum(dist[:i]) generes et tilfældigt tal nedenfor
             return np.random.randint(30 * i + 1 if (i > 0) else 0, 30 * (i + 1))  # Tager højde for at distruptionen kan ændre sig så der kommer fly med landingstider på 0-30 sekunder
 
 
@@ -41,11 +41,4 @@ if (__name__ == "__main__"):
     # Test af GennerateFlights
     flights = GenerateFlights(year = 1) # Bør gennere 210 fly, da 200 * 1.05.
     print(len(flights)) # Tjekker om der rent faktisk er 210 fly.
-    print(flights[0]) # Printer det første fly.
-
-    # Tester at generateLandingDuration virker
-    s = sum((0, 16, 33, 61, 41, 25, 10, 8, 6, 0)) 
-
-    randomNumber = np.random.randint(0, sum(dist) + 1)  # Genenere et tilfældigt tal, for at finde ud af i hvilket område flyets landings tid skal ligge
-    for i in range(len(dist)):
-        if randomNumber <= sum(dist):
+    print(flights[0]) # Printer det første fly. 

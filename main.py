@@ -6,7 +6,7 @@ from time import time
 import numpy as np
 
 print("Hvis du ønsker at køre koden for at teste om den virker anbefalder vi instillingerne: \n - År: 5,\n - skipYears: 1,\n, - Dage pr år: 10,\n - offset: 0")
-years = int(input("Antal år, efter år 0: ")) + 1
+years = int(input("Antal år, efter år 0: ")) + 1 # Pluser med 1 så 
 skipYears = int(input("Hvor mange år vil du have imellem hver simulering? "))
 days = int(input("Antal dage der skal simuleres pr år: "))
 offset = int(input("Offset, bruges til at simulere dårligt landingsvejr og er en konstant der ligges til hvert flys landingsvarrighed. Sæt denne vaerdi til 0, ved almindeligt vejr... "))

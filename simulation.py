@@ -13,8 +13,8 @@ def SimulateAirport(flights: [{}], k: int = 1) -> (int):
     Returns:
          - En tuple af to værdier, flyenes totale vente tid i landingskøen og den højeste vente tid.
     """
-    time, dt, totalWaitingTime = 0, 0, 0
-    highestWaitingTime = 0
+    time, dt = 0, 0 # Tidsvariabler brugt under simuleringen
+    highestWaitingTime, totalWaitingTime = 0, 0 # Variabler til opbevaring af resultater fra simulering
     queue, airstrips = [], [{"duration": 0, "remainder": 0, "start": 0, "arrival": 0} for _ in range(k)]  # Landingskøen og landingsbanerne
 
     while len(flights) > 0 or len(queue) > 0:
@@ -38,13 +38,13 @@ def SimulateAirport(flights: [{}], k: int = 1) -> (int):
                     flight = queue.pop(0)
                     airstrips[i] = {"duration": flight["duration"],"remainder": flight["duration"],"start": time,"arrival": flight["arrival"]}
                 else:
-                    airstrips[i] = {"duration": 0,"start": 0,"remainder": 0,"arrival": 0}
+                    airstrips[i] = {"duration": 0,"start": 0,"remainder": 0,"arrival": 0} # Landingsbanen forbliver fri
 
             else:
                 airstrips[i]["remainder"] -= dt
 
         # 3. Opdater tiden der er gået
-        dt = sorted(airstrips, key=lambda x: x["remainder"])[0]["remainder"]  # Finder den mindste remainder og rykker frem i tiden
+        dt = min(map(lambda x: x["remainder"], airstrips)) # Finder den mindste remainder og rykker frem i tiden
 
         time += dt if (dt > 0) else 1
 
