@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 from flights import GenerateFlights
 
 def SimulateAirport(flights: [{}], k: int = 1) -> (int):
@@ -72,7 +73,7 @@ def runSimulations(years: int, days: int, skipYears: int, offset: int) -> [[floa
             totalTimeWaiting, highestWaitThisYear = 0, 0
 
             for _ in range(days):  # For hvert år køres simuleringen 10 gange for at få et mere uniformt billede (nogle dage kan tilfældigvis være meget værre end andre)
-                flights = sorted(GenerateFlights(offset=offset, year=years, oT=46800), key=lambda x: x["arrival"])  # Generer tilfældige fly og sortere dem efter ankomst
+                flights = sorted(GenerateFlights(offset=offset, year=i, oT=46800), key=lambda x: x["arrival"])  # Generer tilfældige fly og sortere dem efter ankomst
                 wait, highestWaitThisDay = SimulateAirport(flights, k=k)  # Denne funktion returnere en tuple som bliver pakket ud i variablerne wait og heighestWait, hvilket skal forståes som wait = tuple[0] og heighestWait = tuple[1]
                 totalTimeWaiting += wait
 
