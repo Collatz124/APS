@@ -28,7 +28,7 @@ def plotData(data: [[float]], years: int, skipYears: int, labels: (str)):
     opacity = 0.8
 
     # Plotter bar plots for K = 1 og K = 2
-    rects1 = plt.bar(
+    plt.bar(
         index,
         data_k1,
         bar_width,
@@ -37,7 +37,7 @@ def plotData(data: [[float]], years: int, skipYears: int, labels: (str)):
         label="K=1"
     )
 
-    rects2 = plt.bar(
+    plt.bar(
         index + bar_width,
         data_k2,
         bar_width,

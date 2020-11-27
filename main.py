@@ -5,7 +5,7 @@ from viz import plotData
 from time import time
 import numpy as np
 
-print("Hvis du ønsker at køre koden for at teste om den virker anbefalder vi instillingerne: \n - År: 5,\n - skipYears: 1,\n, - Dage pr år: 10,\n - offset: 0")
+print("Hvis du ønsker at køre koden for at teste om den virker anbefalder vi instillingerne: \n - År: 5,\n - skipYears: 1,\n - Dage pr år: 10,\n - offset: 0")
 years = int(input("Antal år, efter år 0: ")) + 1 # Pluser med 1 så 
 skipYears = int(input("Hvor mange år vil du have imellem hver simulering? "))
 days = int(input("Antal dage der skal simuleres pr år: "))
@@ -18,7 +18,7 @@ average, highest = runSimulations(years, days, skipYears, offset)  # Denne funkt
 print("Det tog {0} sekunder...".format(time() - start)) # Tiden simuleringen tog.
 
 # Plotter data fra simuleringen
-plotData(1 / 60 * np.array(average), years, skipYears, ("Gennemsnitlig total ventetid", "Antal år", "Gennemsnitlig totalventetid i minutter"))
+plotData(1 / 60 * np.array(average), years, skipYears, ("Total ventetid pr dag", "Antal år", "Gennemsnitlig total ventetid i minutter"))
 plotData(1 / 60 * np.array(highest), years, skipYears, ("Højeste ventetid pr år", "Antal år", "Højeste ventetid i minutter"))
 
 # Beregner gennemsnitlig vente tid pr fly udfra variablen average.
