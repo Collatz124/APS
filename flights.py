@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def GenerateLandingDuration():
     """ Genere en landings tid baseret på det givne data fra oplægget. """
     dist = [0, 16, 33, 61, 41, 25, 10, 8, 6, 0]  # Hvert index repreæsentere en landingstid i sekunder 0: 0-30, 1: 31-60 osv.

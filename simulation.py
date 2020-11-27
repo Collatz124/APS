@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from flights import GenerateFlights
 
 def SimulateAirport(flights: [{}], k: int = 1) -> (int):

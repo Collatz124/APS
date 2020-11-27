@@ -1,5 +1,3 @@
-# !/usr/bin/env python3
-
 from simulation import runSimulations
 from viz import plotData
 from time import time
