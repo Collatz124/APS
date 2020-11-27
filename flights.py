@@ -39,6 +39,6 @@ def GenerateFlights(offset: int = 0, year: int = 0, operationalTime: int = 46800
 if (__name__ == "__main__"):
     """ Test kode til dette modul """
     # Test af GennerateFlights
-    flights = GenerateFlights(year = 1) # Bør gennere 210 fly, da 200 * 1.05.
+    flights = GenerateFlights(year = 20) # Bør gennere 530 fly, da 200 * 1.05.
     print(len(flights)) # Tjekker om der rent faktisk er 210 fly.
     print(flights[0]) # Printer det første fly. 
